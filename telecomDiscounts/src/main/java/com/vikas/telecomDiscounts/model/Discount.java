@@ -1,17 +1,25 @@
 package com.vikas.telecomDiscounts.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long discountId;
+    @NotNull(message = "minAmt Required")
+    @Min(value = 0,message = "minimum amount should be positive")
     private double minAmt;
+    @NotNull(message = "maxAmt Required")
+    @Min(value = 0,message = "maximum amount should be positive")
     private double maxAmt;
+    @NotNull(message = "discountPerc Required")
+    @Min(value = 0,message = "discountPerc should be positive")
     private double discountPerc;
     @Enumerated(EnumType.STRING)
-    private CustomerType customerType;
+    private CustomerType customerType=CustomerType.REGULAR;
 
     public Long getDiscountId() {
         return discountId;
