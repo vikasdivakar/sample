@@ -7,15 +7,15 @@ import jakarta.validation.constraints.NotNull;
 public class Bill {
     @NotNull(message = "Amount Required")
     @Min(value = 0,message = "Amount should be more than zero")
-    private double amount;
+    private double purchaseAmount;
     private CustomerType customerType=CustomerType.REGULAR;
 
-    public double getAmount() {
-        return amount;
+    public double getPurchaseAmount() {
+        return purchaseAmount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setPurchaseAmount(double purchaseAmount) {
+        this.purchaseAmount = purchaseAmount;
     }
 
     public CustomerType getCustomerType() {

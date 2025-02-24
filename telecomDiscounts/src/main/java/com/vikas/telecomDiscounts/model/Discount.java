@@ -4,30 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
-public class Discount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long discountId;
+import java.util.Objects;
+
+
+public class Discount implements Comparable<Discount>{
+
+
     @NotNull(message = "minAmt Required")
     @Min(value = 0,message = "minimum amount should be positive")
     private double minAmt;
-    @NotNull(message = "maxAmt Required")
-    @Min(value = 0,message = "maximum amount should be positive")
-    private double maxAmt;
     @NotNull(message = "discountPerc Required")
     @Min(value = 0,message = "discountPerc should be positive")
     private double discountPerc;
     @Enumerated(EnumType.STRING)
     private CustomerType customerType=CustomerType.REGULAR;
-
-    public Long getDiscountId() {
-        return discountId;
-    }
-
-    public void setDiscountId(Long discountId) {
-        this.discountId = discountId;
-    }
 
     public double getMinAmt() {
         return minAmt;
@@ -35,14 +25,6 @@ public class Discount {
 
     public void setMinAmt(double minAmt) {
         this.minAmt = minAmt;
-    }
-
-    public double getMaxAmt() {
-        return maxAmt;
-    }
-
-    public void setMaxAmt(double maxAmt) {
-        this.maxAmt = maxAmt;
     }
 
     public double getDiscountPerc() {
@@ -58,5 +40,30 @@ public class Discount {
 
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
+    }
+
+    public Discount(double minAmt, double discountPerc, CustomerType customerType) {
+        this.minAmt = minAmt;
+        this.discountPerc = discountPerc;
+        this.customerType = customerType;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Discount discount = (Discount) o;
+        return Double.compare(discount.minAmt, minAmt) == 0 && Double.compare(discount.discountPerc, discountPerc) == 0 && customerType == discount.customerType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(minAmt, discountPerc, customerType);
+    }
+
+    @Override
+    public int compareTo(Discount o) {
+        return Double.compare(o.minAmt,this.minAmt);
     }
 }
